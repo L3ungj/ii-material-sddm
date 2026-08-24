@@ -1,15 +1,19 @@
-{ lib, stdenvNoCC, fetchFromGitHub }:
-
-stdenvNoCC.mkDerivation (finalAttrs: {
-  pname = "ii-material-sddm";
-  version = "1.0";
-
-  src = fetchFromGitHub {
+{
+  lib,
+  stdenvNoCC,
+  fetchFromGitHub,
+  version ? "1.0",
+  src ? fetchFromGitHub {
     owner = "ToRvaLDz";
     repo = "ii-material-sddm";
-    rev = "v${finalAttrs.version}";
-    hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
-  };
+    rev = "v${version}";
+    hash = lib.fakeHash;
+  },
+}:
+
+stdenvNoCC.mkDerivation {
+  pname = "ii-material-sddm";
+  inherit src version;
 
   dontBuild = true;
 
@@ -32,4 +36,4 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     maintainers = [ ];
     platforms = lib.platforms.linux;
   };
-})
+}
